@@ -1,0 +1,12 @@
+<resources>
+
+    <string name="app_name">HowManyDrinks</string>
+    <string name="title">How many drinks did I have??</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="reset">Reset</string>
+	<string name="minus">Minus</string>
+	<string name="shooter">Shooter</string>
+	<string name="beer">Beer</string>
+	<string name="nula">0</string>
+</resources>
