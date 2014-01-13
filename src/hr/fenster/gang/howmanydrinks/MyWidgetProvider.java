@@ -26,46 +26,49 @@ public class MyWidgetProvider extends AppWidgetProvider {
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
 			int[] appWidgetIds) {
 
-		prefs = context.getSharedPreferences("", Context.MODE_PRIVATE);
-		editor = prefs.edit();
+		ComponentName thisWidget = new ComponentName(context,
+				MyWidgetProvider.class);
+		int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
 
-		editor.putBoolean("drink", true);
-		editor.commit();
+		for (int widgetId : allWidgetIds) {
 
-		remoteViews = new RemoteViews(context.getPackageName(),
-				R.layout.activity_main);
+			prefs = context.getSharedPreferences("", Context.MODE_PRIVATE);
+			editor = prefs.edit();
 
-		Intent configIntent = new Intent(context, MyWidgetProvider.class);
-		configIntent.setAction(ACTION_CLICK);
-		PendingIntent actionPendingIntent = PendingIntent.getBroadcast(context,
-				0, configIntent, 0);
+			editor.putBoolean("drink", true);
+			editor.commit();
 
-		Intent resetIntent = new Intent(context, MyWidgetProvider.class);
-		resetIntent.setAction(ACTION_RESET);
-		PendingIntent resetAPI = PendingIntent.getBroadcast(context, 0,
-				resetIntent, 0);
+			remoteViews = new RemoteViews(context.getPackageName(),
+					R.layout.activity_main);
 
-		Intent minusIntent = new Intent(context, MyWidgetProvider.class);
-		minusIntent.setAction(ACTION_MINUS);
-		PendingIntent minusAPI = PendingIntent.getBroadcast(context, 0,
-				minusIntent, 0);
+			Intent configIntent = new Intent(context, MyWidgetProvider.class);
+			configIntent.setAction(ACTION_CLICK);
+			PendingIntent actionPendingIntent = PendingIntent.getBroadcast(
+					context, 0, configIntent, 0);
 
-		Intent changeIntent = new Intent(context, MyWidgetProvider.class);
-		changeIntent.setAction(ACTION_CHANGE);
-		PendingIntent changeAPI = PendingIntent.getBroadcast(context, 0,
-				changeIntent, 0);
+			Intent resetIntent = new Intent(context, MyWidgetProvider.class);
+			resetIntent.setAction(ACTION_RESET);
+			PendingIntent resetAPI = PendingIntent.getBroadcast(context, 0,
+					resetIntent, 0);
 
-		remoteViews.setOnClickPendingIntent(R.id.button_update,
-				actionPendingIntent);
-		remoteViews.setOnClickPendingIntent(R.id.button_reset, resetAPI);
-		remoteViews.setOnClickPendingIntent(R.id.button_minus, minusAPI);
-		remoteViews.setOnClickPendingIntent(R.id.button_change, changeAPI);
+			Intent minusIntent = new Intent(context, MyWidgetProvider.class);
+			minusIntent.setAction(ACTION_MINUS);
+			PendingIntent minusAPI = PendingIntent.getBroadcast(context, 0,
+					minusIntent, 0);
 
+			Intent changeIntent = new Intent(context, MyWidgetProvider.class);
+			changeIntent.setAction(ACTION_CHANGE);
+			PendingIntent changeAPI = PendingIntent.getBroadcast(context, 0,
+					changeIntent, 0);
 
-		AppWidgetManager.getInstance(context)
-				.updateAppWidget(
-						new ComponentName(context, MyWidgetProvider.class),
-						remoteViews);
+			remoteViews.setOnClickPendingIntent(R.id.button_update,
+					actionPendingIntent);
+			remoteViews.setOnClickPendingIntent(R.id.button_reset, resetAPI);
+			remoteViews.setOnClickPendingIntent(R.id.button_minus, minusAPI);
+			remoteViews.setOnClickPendingIntent(R.id.button_change, changeAPI);
+
+			appWidgetManager.updateAppWidget(widgetId, remoteViews);
+		}
 	}
 
 	@Override
